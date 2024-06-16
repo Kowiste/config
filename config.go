@@ -3,32 +3,59 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-
 	"os"
 	"reflect"
 	"sync"
 )
 
-// ConfigLoader is a generic singleton configuration loader.
-type config[T any] struct {
+// Config is a singleton configuration loader.
+type Config[T any] struct {
 	once   sync.Once
 	config T
 }
 
-// New creates a new instance of Config for a path.
-func New[T any](filePath string) (cl config[T], err error) {
-	cl.once.Do(func() {
-		cl.config, err = fromFile[T](filePath)
+var instance *Config[any]
+var mu sync.Mutex
+
+// New initializes the configuration loader for a given file path.
+// It will only load the configuration once.
+func New[T any](filePath string) (err error) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	// Check if an instance already exists
+	if instance != nil {
+		return fmt.Errorf("configuration already loaded")
+	}
+
+	// Create a new instance
+	instance = &Config[any]{}
+	instance.once.Do(func() {
+		instance.config, err = fromFile[T](filePath)
 	})
+
 	return
 }
 
 // Get returns the loaded configuration.
-func (cl *config[T]) Get() T {
-	return cl.config
+func Get[T any]() (config T, err error) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	if instance == nil {
+		return config, fmt.Errorf("configuration not loaded")
+	}
+
+	// Type assert the stored config to the desired type
+	config, ok := instance.config.(T)
+	if !ok {
+		return config, fmt.Errorf("configuration type mismatch")
+	}
+
+	return config, err
 }
 
-// loadConfigFromFileAndEnv reads configuration from a JSON file and environment variables.
+// fromFile reads configuration from a JSON file and environment variables.
 func fromFile[T any](filePath string) (T, error) {
 	var config T
 
@@ -74,5 +101,3 @@ func overrideWithEnv[T any](config *T) {
 		}
 	}
 }
-
-

@@ -1,6 +1,10 @@
 package main
 
-import "github.com/kowiste/config"
+import (
+	"fmt"
+
+	"github.com/kowiste/config"
+)
 
 type MyConfig struct {
 	DatabaseURL string `json:"database_url" env:"DATABASE_URL"`

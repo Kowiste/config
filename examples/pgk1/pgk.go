@@ -4,5 +4,5 @@ import "github.com/kowiste/config"
 
 
 func Test(){
-config.New()
+config.
 }
