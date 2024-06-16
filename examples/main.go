@@ -16,10 +16,15 @@ type MyConfig2 struct {
 }
 
 func main() {
-	config, err := config.New[MyConfig2]("config.json")
+	err := config.New[MyConfig2](config.G)
 	if err != nil {
 		fmt.Println("Error loading config:", err)
 		return
 	}
-	config.Get()
+	cfg, err := config.Get[MyConfig2]()
+	if err != nil {
+		fmt.Println("Error loading config:", err)
+		return
+	}
+	fmt.Print(cfg)
 }
