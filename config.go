@@ -1,4 +1,4 @@
-package config
+package main
 
 import (
 	"encoding/json"
@@ -10,31 +10,30 @@ import (
 )
 
 // ConfigLoader is a generic singleton configuration loader.
-type Config[T any] struct {
+type config[T any] struct {
 	once   sync.Once
 	config T
-	err    error
 }
 
-// Load initializes the singleton configuration from a JSON file and environment variables.
-func (cl *Config[T]) Load(filePath string) error {
+// New creates a new instance of Config for a path.
+func New[T any](filePath string) (cl config[T], err error) {
 	cl.once.Do(func() {
-		cl.config, cl.err = loadConfigFromFileAndEnv[T](filePath)
+		cl.config, err = fromFile[T](filePath)
 	})
-	return cl.err
+	return
 }
 
 // Get returns the loaded configuration.
-func (cl *Config[T]) Get() T {
+func (cl *config[T]) Get() T {
 	return cl.config
 }
 
 // loadConfigFromFileAndEnv reads configuration from a JSON file and environment variables.
-func loadConfigFromFileAndEnv[T any](filePath string) (T, error) {
+func fromFile[T any](filePath string) (T, error) {
 	var config T
 
 	// Read JSON file
-	data, err := os.ReadFile("test.txt")
+	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return config, fmt.Errorf("failed to get file: %w", err)
 	}
@@ -75,3 +74,5 @@ func overrideWithEnv[T any](config *T) {
 		}
 	}
 }
+
+
