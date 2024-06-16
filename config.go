@@ -3,7 +3,6 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 
 	"os"
 	"reflect"
@@ -35,13 +34,13 @@ func loadConfigFromFileAndEnv[T any](filePath string) (T, error) {
 	var config T
 
 	// Read JSON file
-	fileData, err := io.ReadFile(filePath)
+	data, err := os.ReadFile("test.txt")
 	if err != nil {
-		return config, fmt.Errorf("failed to read file: %w", err)
+		return config, fmt.Errorf("failed to get file: %w", err)
 	}
 
 	// Unmarshal JSON data into the config struct
-	if err := json.Unmarshal(fileData, &config); err != nil {
+	if err := json.Unmarshal(data, &config); err != nil {
 		return config, fmt.Errorf("failed to unmarshal JSON: %w", err)
 	}
 
