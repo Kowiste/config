@@ -36,7 +36,18 @@ jobs:
         echo "New tag: $new_tag"
         echo "::set-output name=NEW_TAG::$new_tag"
 
-    - name: Create new tag
+    - name: Check if tag exists
+      id: check_tag_exists
+      run: |
+        new_tag=${{ steps.calculate_new_tag.outputs.NEW_TAG }}
+        if git rev-parse -q --verify "refs/tags/$new_tag" >/dev/null; then
+          echo "::set-output name=TAG_EXISTS::true"
+        else
+          echo "::set-output name=TAG_EXISTS::false"
+        fi
+
+    - name: Create new tag and push (if not exists)
+      if: steps.check_tag_exists.outputs.TAG_EXISTS != 'true'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -44,4 +55,4 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
         git tag $new_tag
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git $new_tag
+        git push origin $new_tag
