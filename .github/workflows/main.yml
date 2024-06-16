@@ -13,12 +13,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Get the latest tag
-      id: get_latest_tag
+    - name: Set output
+      id: vars
+      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+    - name: Check output
+      env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
       run: |
-        latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
-        echo "Latest tag: $latest_tag"
-        echo "::set-output name=LATEST_TAG::$latest_tag"
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
 
     - name: Calculate new tag
       id: calculate_new_tag
