@@ -6,11 +6,11 @@ import (
 	"path/filepath"
 )
 
-const configPath = "./config/config-%s"
+const configPath = "%s/config/config-%s"
 
 func GetPathEnv(environment string) string {
-	getExecutablePath()
-	return fmt.Sprintf(configPath, environment)
+	execPath := getExecutablePath()
+	return fmt.Sprintf(configPath, execPath, environment)
 }
 func getExecutablePath() string {
 	// Get the absolute path of the executable binary
@@ -20,7 +20,7 @@ func getExecutablePath() string {
 	}
 
 	// Get the directory of the executable binary
-	exeDir := filepath.Dir(exePath)
+	exeDir := filepath.ToSlash(filepath.Dir(exePath))
 
 	return exeDir
 }
