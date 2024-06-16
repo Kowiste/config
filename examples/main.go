@@ -4,27 +4,26 @@ import (
 	"fmt"
 
 	"github.com/kowiste/config"
+	conf "example/config"
+	pkg1 "example/pgk1"
+	pkg2 "example/pgk2"
+
 )
 
-type MyConfig struct {
-	DatabaseURL string `json:"database_url" env:"DATABASE_URL"`
-	Port        int    `json:"port" env:"PORT"`
-}
-type MyConfig2 struct {
-	DatabaseURL string `json:"database_url" env:"DATABASE_URL"`
-	Port        string `json:"port" env:"PORT"`
-}
+
 
 func main() {
-	err := config.New[MyConfig2](config.G)
+	err := config.New[conf.MyConfig2](config.GetPathEnv("local"))
 	if err != nil {
 		fmt.Println("Error loading config:", err)
 		return
 	}
-	cfg, err := config.Get[MyConfig2]()
+	cfg, err := config.Get[conf.MyConfig2]()
 	if err != nil {
 		fmt.Println("Error loading config:", err)
 		return
 	}
-	fmt.Print(cfg)
+	fmt.Print("main",cfg)
+	pkg1.Test()
+	pkg2.Test()
 }

@@ -1,8 +1,18 @@
 package pgk2
 
-import "github.com/kowiste/config"
+import (
+	"fmt"
 
+	conf "example/config"
 
-func Test(){
-config.
+	"github.com/kowiste/config"
+)
+
+func Test() {
+	cfg, err := config.Get[conf.MyConfig]()
+	if err != nil {
+		fmt.Println("Error loading config:", err)
+		return
+	}
+	fmt.Println("Package 2", cfg)
 }
