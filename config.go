@@ -25,7 +25,8 @@ func New[T any](filePath string) (err error) {
 
 	// Check if an instance already exists
 	if instance != nil {
-		return fmt.Errorf("configuration already loaded")
+		instance.config, err = fromFile[T](filePath)
+		return
 	}
 
 	// Create a new instance
@@ -71,7 +72,7 @@ func fromFile[T any](filePath string) (T, error) {
 	}
 
 	// Override with environment variables
-	overrideWithEnv(&config)
+	//overrideWithEnv(&config)
 
 	return config, nil
 }
