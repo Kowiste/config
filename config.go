@@ -72,13 +72,13 @@ func fromFile[T any](filePath string) (T, error) {
 	}
 
 	// Override with environment variables
-	//overrideWithEnv(&config)
+	overrideEnv(&config)
 
 	return config, nil
 }
 
 // overrideWithEnv overrides the struct fields with environment variables if they exist.
-func overrideWithEnv[T any](config *T) {
+func overrideEnv[T any](config *T) {
 	val := reflect.ValueOf(config).Elem()
 	typ := val.Type()
 
@@ -96,6 +96,7 @@ func overrideWithEnv[T any](config *T) {
 			case reflect.String:
 				field.SetString(envValue)
 			case reflect.Int:
+				
 				// Add other type handling as needed
 				// For simplicity, we'll just handle string and int here
 			}
