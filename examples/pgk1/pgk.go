@@ -11,7 +11,7 @@ import (
 func Test() {
 	cfg, err := config.Get[conf.MyConfig]()
 	if err != nil {
-		fmt.Println("Error loading config:", err)
+		fmt.Println("Error getting config:", err)
 		return
 	}
 	fmt.Println("Package 1", cfg)

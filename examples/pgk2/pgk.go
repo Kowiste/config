@@ -9,7 +9,7 @@ import (
 )
 
 func Test() {
-	cfg, err := config.Get[conf.MyConfig]()
+	cfg, err := config.Get[conf.MyConfig2]()
 	if err != nil {
 		fmt.Println("Error loading config:", err)
 		return

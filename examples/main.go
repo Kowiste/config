@@ -13,17 +13,18 @@ import (
 
 
 func main() {
-	err := config.New[conf.MyConfig2](config.GetPathEnv("local"))
+	err := config.New[conf.MyConfig](config.GetPathEnv("dev"))
 	if err != nil {
 		fmt.Println("Error loading config:", err)
 		return
 	}
-	cfg, err := config.Get[conf.MyConfig2]()
+	cfg, err := config.Get[conf.MyConfig]()
 	if err != nil {
-		fmt.Println("Error loading config:", err)
+		fmt.Println("Error getting config:", err)
 		return
 	}
-	fmt.Print("main",cfg)
+	fmt.Println("main",cfg)
+
 	pkg1.Test()
 	pkg2.Test()
 }
