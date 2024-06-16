@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-const configPath = "%s/config/config-%s"
+const configPath = "%s/config/config-%s.json"
 
 func GetPathEnv(environment string) string {
 	execPath := getExecutablePath()
