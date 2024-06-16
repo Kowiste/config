@@ -51,7 +51,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        new_tag=${{ steps.calculate_new_tag.outputs.NEW_TAG }}
+        new_tag=${{ steps.calculate_new_tag.outputs.NEW_TAG }}-$(date '+%Y%m%d%H%M%S')
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
         git tag $new_tag
