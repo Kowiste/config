@@ -16,7 +16,8 @@ jobs:
     - name: Get the latest tag
       id: get_latest_tag
       run: |
-        latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+        latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "v0.0.0")
+        echo "Latest tag: $latest_tag"
         echo "::set-output name=LATEST_TAG::$latest_tag"
 
     - name: Calculate new tag
@@ -32,6 +33,7 @@ jobs:
         patch=${parts[2]}
         new_patch=$((patch + 1))
         new_tag="v$major.$minor.$new_patch"
+        echo "New tag: $new_tag"
         echo "::set-output name=NEW_TAG::$new_tag"
 
     - name: Create new tag
@@ -43,4 +45,3 @@ jobs:
         git config --global user.email "github-actions@github.com"
         git tag $new_tag
         git push origin $new_tag
-  
