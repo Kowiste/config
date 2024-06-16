@@ -27,12 +27,21 @@ jobs:
         if [[ $latest_tag == v* ]]; then
           latest_tag=${latest_tag:1}
         fi
+        
         IFS='.' read -r -a parts <<< "$latest_tag"
         major=${parts[0]}
         minor=${parts[1]}
         patch=${parts[2]}
+        
+        # Increment patch version until finding a non-existing tag
         new_patch=$((patch + 1))
         new_tag="v$major.$minor.$new_patch"
+        
+        while git rev-parse -q --verify "refs/tags/$new_tag" >/dev/null; do
+          new_patch=$((new_patch + 1))
+          new_tag="v$major.$minor.$new_patch"
+        done
+        
         echo "New tag: $new_tag"
         echo "::set-output name=NEW_TAG::$new_tag"
 
