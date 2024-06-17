@@ -96,7 +96,7 @@ func overrideEnv[T any](config *T) {
 			case reflect.String:
 				field.SetString(envValue)
 			case reflect.Int:
-				
+				field.SetString(envValue)
 				// Add other type handling as needed
 				// For simplicity, we'll just handle string and int here
 			}
