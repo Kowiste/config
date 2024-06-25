@@ -4,11 +4,20 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 const configPath = "%s/config/config-%s.json"
 
-func GetPathEnv(environment string) string {
+func GetPathEnv() string {
+	execPath := getExecutablePath()
+	environment := os.Getenv("ENVIRONMENT")
+	if len(strings.TrimSpace(environment)) == 0 {
+		environment = "local"
+	}
+	return fmt.Sprintf(configPath, execPath, environment)
+}
+func GetPathOf(environment string) string {
 	execPath := getExecutablePath()
 	return fmt.Sprintf(configPath, execPath, environment)
 }

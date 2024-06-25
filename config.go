@@ -1,3 +1,4 @@
+// Package path implements utility to read configuration
 package config
 
 import (

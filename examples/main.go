@@ -13,7 +13,7 @@ import (
 
 
 func main() {
-	err := config.New[conf.MyConfig](config.GetPathEnv("dev"))
+	err := config.New[conf.MyConfig](config.GetPathOf("dev"))
 	if err != nil {
 		fmt.Println("Error loading config:", err)
 		return
