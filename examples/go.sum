@@ -1,2 +1,6 @@
 github.com/kowiste/config v0.1.9 h1:TIyWwcQxYa4+Mr2djtaFtiJE2yh8pOYx7JRTKnnW7Rs=
 github.com/kowiste/config v0.1.9/go.mod h1:kRN7n9/3VoDMfmmoK/eHmSW2gIuwPrFq/3R6fLqw/aU=
+github.com/kowiste/config v0.1.10 h1:BSpsP+UEhn+h5aJgzS/wsbH0YtubIOGUY3hg8x5XuDk=
+github.com/kowiste/config v0.1.10/go.mod h1:kRN7n9/3VoDMfmmoK/eHmSW2gIuwPrFq/3R6fLqw/aU=
+github.com/kowiste/config v0.1.11 h1:neR1gUVkHJULk3+Muvax5CHNVRnMW8X8/dWV4gVrheE=
+github.com/kowiste/config v0.1.11/go.mod h1:kRN7n9/3VoDMfmmoK/eHmSW2gIuwPrFq/3R6fLqw/aU=
