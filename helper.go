@@ -9,6 +9,8 @@ import (
 
 const configPath = "%s/config/config-%s.json"
 
+// GetPathEnv get config file from ./config/config-{$ENVIRONMENT}.json
+// if ENVIRONMENT doesnt have value get local
 func GetPathEnv() string {
 	execPath := getExecutablePath()
 	environment := os.Getenv("ENVIRONMENT")

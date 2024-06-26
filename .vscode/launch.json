@@ -11,7 +11,8 @@
       "mode": "debug",
       "program": "${file}",
       "env": {
-        "PORT": "3456"
+        "SERVICE_PORT": "3456",
+        "ENVIRONMENT": "dev"
       }
     },
 

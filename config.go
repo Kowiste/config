@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"reflect"
+	"strconv"
 	"sync"
 )
 
@@ -97,9 +98,23 @@ func overrideEnv[T any](config *T) {
 			case reflect.String:
 				field.SetString(envValue)
 			case reflect.Int:
-				field.SetString(envValue)
-				// Add other type handling as needed
-				// For simplicity, we'll just handle string and int here
+				if intValue, err := strconv.Atoi(envValue); err == nil {
+					field.SetInt(int64(intValue))
+				} else {
+					// Handle error (e.g., log it or return an error)
+				}
+			case reflect.Bool:
+				if boolValue, err := strconv.ParseBool(envValue); err == nil {
+					field.SetBool(boolValue)
+				} else {
+					// Handle error (e.g., log it or return an error)
+				}
+			case reflect.Float32, reflect.Float64:
+				if floatValue, err := strconv.ParseFloat(envValue, field.Type().Bits()); err == nil {
+					field.SetFloat(floatValue)
+				} else {
+					// Handle error (e.g., log it or return an error)
+				}
 			}
 		}
 	}
